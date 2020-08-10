@@ -1,0 +1,52 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+<div class="row">
+<div class="col-sm-6">
+<h1>Editar usuario: {{$user->name}}</h1>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+<form action="{{route('usuarios.update',$user->id)}}" method="POST">
+    @method('PATCH')    
+    @csrf
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+        <input type="text" class="form-control" name="name" value="{{$user->name}}" placeholder="escribe tu nombre">
+        </div>
+        <div class="form-group">
+            <label for="matricula">Matrícula</label>
+            <input type="text" class="form-control" name="matricula" value="{{$user->matricula}}" placeholder="escribe la matrícula">        
+        </div>
+        <div class="form-group">
+            <label for="grupo">Grupo:</label>
+        <input type="text" class="form-control" name="grupo" value="{{$user->grupo}}" placeholder="escribe el Grupo">
+        </div>
+        <div class="form-group">
+            <label for="telefono">Telefono:</label>
+        <input type="text" class="form-control" name="telefono" value="{{$user->telefono}}" placeholder="escribe el telefono">
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+        <input type="text" class="form-control" name="direccion" value="{{$user->direccion}}" placeholder="escribe la Dirección">
+        </div>
+        <div class="form-group">
+            <label for="rol">Rol de usuario:</label>
+        <input type="text" class="form-control" name="rol" value="{{$user->rol}}" placeholder="escribe el rol">
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Editar usuario</button>
+        <button type="reset" class="btn btn-danger">Cancelar</button>
+    </form>
+</div>
+</div>
+</div>
+@endsection
