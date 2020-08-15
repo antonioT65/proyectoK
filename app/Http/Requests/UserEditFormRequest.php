@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\UserFormRequest;
-use App\User;
 
-class UserFormRequest extends FormRequest
+class UserEditFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +24,9 @@ class UserFormRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'matricula' => 'required|min:3|max:10|unique:users',
             'grupo'=> 'required|max:5',
             'telefono'=> 'required|max:10',
             'direccion'=> 'required|max:255',
-            'rol'=> 'required',
             'password'=>'required|min:6|confirmed',
             'imagen' => 'mimes:jpeg,jpg,bmp,png'
         ];

@@ -15,16 +15,12 @@
     </div>
     @endif
 
-<form action="{{route('usuarios.update',$user->id)}}" method="POST">
+<form action="{{route('usuarios.update',$user->id)}}" method="POST" enctype="multipart/form-data">
     @method('PATCH')    
     @csrf
         <div class="form-group">
             <label for="name">Nombre:</label>
         <input type="text" class="form-control" name="name" value="{{$user->name}}" placeholder="escribe tu nombre">
-        </div>
-        <div class="form-group">
-            <label for="matricula">Matrícula</label>
-            <input type="text" class="form-control" name="matricula" value="{{$user->matricula}}" placeholder="escribe la matrícula">        
         </div>
         <div class="form-group">
             <label for="grupo">Grupo:</label>
@@ -38,13 +34,22 @@
             <label for="direccion">Dirección:</label>
         <input type="text" class="form-control" name="direccion" value="{{$user->direccion}}" placeholder="escribe la Dirección">
         </div>
-        <div class="form-group">
-            <label for="rol">Rol de usuario:</label>
-        <input type="text" class="form-control" name="rol" value="{{$user->rol}}" placeholder="escribe el rol">
+        <div class="row"> 
+            <div class="form-group col-md-6">
+                <label>Nueva Contraseña</label>
+                <input type="password" class="form-control" name="password" placeholder="Contraseña">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Confirmar contraseña</label>
+                <input type="password" class="form-control" name="password_confirmation" placeholder="Contraseña">
+            </div>
         </div>
-       
+        <div class="form-group">
+            <label>Imagen de usuario</label>
+            <input type="file" name="imagen" class="form-control">    
+        </div><br> 
         <button type="submit" class="btn btn-primary">Editar usuario</button>
-        <button type="reset" class="btn btn-danger">Cancelar</button>
+        <a href="{{url('usuarios')}}"><button type="button" class="btn btn-danger">Canselar</button></a>
     </form>
 </div>
 </div>

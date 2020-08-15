@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Actividades;
 use Illuminate\Http\Request;
+use App\UserController;
 
 class ActivController extends Controller
 {
     public function index(){
-        return view('actividades.todas.index',['notas'=>Actividades::all()->where('user_id',auth()->id())]);
+        return view('actividades.todas.index',['notas'=>Actividades::all()->where('grupo',auth()->user()->grupo)]);
+        //Auth::user()->imagen
     }
 
     public function edit($id){
@@ -29,6 +31,7 @@ class ActivController extends Controller
         $notas->titulo=request('titulo');
         $notas->texto=request('texto');
         $notas->user_id=auth()->id();
+        $notas->grupo=auth()->user()->grupo;
 
         $notas->save();
         return redirect('actividades/todas');

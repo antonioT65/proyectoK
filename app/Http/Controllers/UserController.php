@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UserFormRequest;
+use App\Http\Requests\UserEditFormRequest;
 use App\User;
 use App\Role;
 use App\Grupos;
@@ -36,7 +37,7 @@ class UserController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(UserFormRequest $request)
     {
         $usuario=new User();
         $usuario->name = request('name');
@@ -46,6 +47,11 @@ class UserController extends Controller
         $usuario->direccion = request('direccion');
         $usuario->rol = request('rol');
         $usuario->password = bcrypt(request('password'));
+        if($request->hasFile('imagen')){
+            $file=$request->imagen;
+            $file->move(public_path() . '/imagenes/users',$file->getClientOriginalName());
+            $usuario->imagen = $file->getClientOriginalName();
+        }
 
         $usuario->save();
 
@@ -65,15 +71,24 @@ class UserController extends Controller
     }
 
     
-    public function update(UserFormRequest $request, $id)
+    public function update(UserEditFormRequest $request, $id)
     {
         $usuario= User::findOrFail($id);
         $usuario->name = $request->get('name');
-        $usuario->matricula = $request->get('matricula');
         $usuario->grupo = $request->get('grupo');
         $usuario->telefono = $request->get('telefono');
         $usuario->direccion = $request->get('direccion');
-        $usuario->rol = $request->get('rol');
+        if ($request->hasFile('imagen')) {
+            $file = $request->imagen;
+            $file->move(public_path() . '/imagenes/users', $file->getClientOriginalName());
+            $usuario->imagen = $file->getClientOriginalName();
+        }
+        $pass = $request->get('password');
+        if ($pass != null) {
+            $usuario->password = bcrypt($request->get('password'));
+        } else {
+            unset($usuario->password);
+        }
 
         $usuario->update();
         return redirect('/usuarios');
